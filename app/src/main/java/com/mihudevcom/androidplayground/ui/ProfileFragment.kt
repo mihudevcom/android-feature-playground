@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.mihudevcom.androidplayground.MainActivity
 import com.mihudevcom.androidplayground.R
 
 class ProfileFragment : Fragment() {
@@ -14,6 +15,10 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+        val view = inflater.inflate(R.layout.fragment_profile, container, false)
+
+        (activity as? MainActivity)?.updateBadge(0)
+
+        return view
     }
 }
