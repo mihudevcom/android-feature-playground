@@ -1,14 +1,19 @@
 package com.mihudevcom.androidplayground
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.navigation.NavigationView
 import com.mihudevcom.androidplayground.viewmodel.BadgeViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -17,7 +22,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
         val navHostFragment =
@@ -46,6 +50,31 @@ class MainActivity : AppCompatActivity() {
                 animateFab(fab, true)
             }
         }
+
+        val drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
+        val navigationView = findViewById<NavigationView>(R.id.navigation_view)
+        navigationView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.nav_home -> navController.navigate(R.id.nav_home)
+                R.id.nav_profile -> navController.navigate(R.id.nav_profile)
+                R.id.nav_dashboard -> navController.navigate(R.id.nav_dashboard)
+                R.id.nav_settings -> navController.navigate(R.id.nav_settings)
+            }
+            drawerLayout.closeDrawer(GravityCompat.START)
+            true
+        }
+
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        val toggle = ActionBarDrawerToggle(
+            this,
+            drawerLayout,
+            toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
+        )
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
     }
 
 
@@ -64,6 +93,16 @@ class MainActivity : AppCompatActivity() {
             fab.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
         } else {
             fab.animate().scaleX(0f).scaleY(0f).setDuration(200).start()
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
+        return if (item.itemId == android.R.id.home) {
+            drawerLayout.openDrawer(GravityCompat.START)
+            true
+        } else {
+            super.onOptionsItemSelected(item)
         }
     }
 }
