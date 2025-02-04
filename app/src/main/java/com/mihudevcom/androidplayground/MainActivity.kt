@@ -1,7 +1,6 @@
 package com.mihudevcom.androidplayground
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -39,6 +38,14 @@ class MainActivity : AppCompatActivity() {
         fab.setOnClickListener {
             navController.navigate(R.id.nav_add_item)
         }
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.nav_add_item) {
+                animateFab(fab, false)
+            } else {
+                animateFab(fab, true)
+            }
+        }
     }
 
 
@@ -49,6 +56,14 @@ class MainActivity : AppCompatActivity() {
             badge.clearNumber()
         } else {
             bottomNavigationView.removeBadge(R.id.nav_profile)
+        }
+    }
+
+    private fun animateFab(fab: FloatingActionButton, show: Boolean) {
+        if (show) {
+            fab.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
+        } else {
+            fab.animate().scaleX(0f).scaleY(0f).setDuration(200).start()
         }
     }
 }
