@@ -12,4 +12,6 @@
     <color name="nav_item_inactive">#808080</color> <!-- Gray for unselected items -->
     <color name="nav_background">#FFFFFF</color> <!-- White background -->
     <color name="nav_ripple">#D1C4E9</color> <!-- Light purple ripple effect -->
+
+    <color name="white">#FFFFFF</color>
 </resources>
